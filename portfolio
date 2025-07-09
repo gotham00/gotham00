@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Linux Terminal Portfolio</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #33ff33;
+      font-family: 'Courier New', Courier, monospace;
+      padding: 20px;
+      margin: 0;
+    }
+    #terminal {
+      max-width: 800px;
+      margin: auto;
+      white-space: pre-wrap;
+      line-height: 1.4;
+    }
+    .prompt {
+      color: #00ff00;
+    }
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      background-color: #33ff33;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      0%, 50% { background-color: #33ff33; }
+      51%, 100% { background-color: transparent; }
+    }
+    input.terminal-input {
+      background: transparent;
+      border: none;
+      color: #33ff33;
+      font-family: inherit;
+      font-size: 1em;
+      outline: none;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="terminal">
+    <div id="output"></div>
+    <div class="prompt">linuxuser@portfolio:~$ <input type="text" id="command" class="terminal-input" autofocus /></div>
+  </div>
+
+  <script>
+    const output = document.getElementById('output');
+    const input = document.getElementById('command');
+
+    const commands = {
+      help: `Available commands:
+  about       → Show info
+  projects    → List projects
+  skills      → Display skills
+  contact     → Contact info
+  clear       → Clear terminal` ,
+      about: `I'm Goutham, a Linux and cybersecurity enthusiast passionate about open-source tools, scripting, and DevSecOps.`,
+      projects: `1. Kernel Logger
+2. Bash Auto Sync Tool
+3. Log Parser (Python)
+4. System Monitor Script` ,
+      skills: `Linux • Bash • Python • Git • Docker • Networking • Security`,
+      contact: `Email: gotham@example.com\nGitHub: github.com/gotham-linux` ,
+    };
+
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        const cmd = input.value.trim();
+        output.innerHTML += `<div><span class="prompt">linuxuser@portfolio:~$</span> ${cmd}</div>`;
+        if (cmd === 'clear') {
+          output.innerHTML = '';
+        } else if (commands[cmd]) {
+          output.innerHTML += `<div>${commands[cmd]}</div>`;
+        } else {
+          output.innerHTML += `<div>Command not found: ${cmd}</div>`;
+        }
+        input.value = '';
+        window.scrollTo(0, document.body.scrollHeight);
+      }
+    });
+  </script>
+</body>
+</html>
